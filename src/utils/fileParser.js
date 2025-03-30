@@ -43,24 +43,34 @@ export const parseFilePaths = (paths) => {
   // Create root node from common prefix
   const root = {
     name: commonPrefix || paths[0].split('/')[0],
-    children: []
+    children: [],
+    __rd3t: {
+      collapsed: false,
+    }
   };
 
   // Process each path, removing the common prefix
   paths.forEach(path => {
+    // If there's a common prefix, remove it and the trailing slash
     const relativePath = commonPrefix ? path.slice(commonPrefix.length + 1) : path;
+    if (!relativePath) return; // Skip if path is just the common prefix
+    
     const parts = relativePath.split('/');
     let current = root;
     
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
+      if (!part) continue; // Skip empty parts
       
       // Find or create the child node
       let child = current.children.find(c => c.name === part);
       if (!child) {
         child = {
           name: part,
-          children: []
+          children: [],
+          __rd3t: {
+            collapsed: true,
+          }
         };
         current.children.push(child);
       }
@@ -83,7 +93,7 @@ export const parseFileContent = (content) => {
   }
 
   // Split content into lines and filter out empty lines
-  const paths = content.split('\n').filter(line => line.trim());
+  const paths = content.split('\n').map(line => line.trim()).filter(line => line.trim());
   
   if (paths.length === 0) {
     throw new Error('No valid paths found in content');

@@ -6,6 +6,7 @@ import './App.css';
 
 function App() {
   const [treeData, setTreeData] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Load default file on startup
   useEffect(() => {
@@ -27,14 +28,18 @@ function App() {
     setTreeData(data);
   };
 
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>File Tree Visualization</h1>
-        <FileImporter onDataLoaded={handleDataLoaded} />
+        <FileImporter onDataLoaded={handleDataLoaded} onSearch={handleSearch} />
       </header>
       <main>
-        {treeData && <TreeVisualization data={treeData} />}
+        {treeData && <TreeVisualization data={treeData} searchTerm={searchTerm} />}
       </main>
     </div>
   );
