@@ -1,23 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import FileImporter from './components/FileImporter';
+import TreeVisualization from './components/TreeVisualization';
+import { parseFileContent } from './utils/fileParser';
 import './App.css';
-import FileUpload from './components/FileUpload';
-import TreeVisualizationOuter from './components/TreeVisualizationOuter';
 
 function App() {
-  const [traceData, setTraceData] = useState(null);
+  const [treeData, setTreeData] = useState(null);
 
-  const handleFileParsed = (data) => {
-    setTraceData(data);
+  // Load default file on startup
+  useEffect(() => {
+    const loadDefaultFile = async () => {
+      try {
+        const response = await fetch('/mb-be-files.txt');
+        const content = await response.text();
+        const data = parseFileContent(content);
+        setTreeData(data);
+      } catch (error) {
+        console.error('Error loading default file:', error);
+      }
+    };
+
+    loadDefaultFile();
+  }, []);
+
+  const handleDataLoaded = (data) => {
+    setTreeData(data);
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Call Stack Trace Visualizer</h1>
-        <FileUpload onFileParsed={handleFileParsed} />
+        <h1>File Tree Visualization</h1>
+        <FileImporter onDataLoaded={handleDataLoaded} />
       </header>
       <main>
-        {traceData && <TreeVisualizationOuter data={traceData} />}
+        {treeData && <TreeVisualization data={treeData} />}
       </main>
     </div>
   );
