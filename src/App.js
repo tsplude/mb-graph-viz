@@ -1,23 +1,24 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import FileUpload from './components/FileUpload';
+import TreeVisualizationOuter from './components/TreeVisualizationOuter';
 
 function App() {
+  const [traceData, setTraceData] = useState(null);
+
+  const handleFileParsed = (data) => {
+    setTraceData(data);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Call Stack Trace Visualizer</h1>
+        <FileUpload onFileParsed={handleFileParsed} />
       </header>
+      <main>
+        {traceData && <TreeVisualizationOuter data={traceData} />}
+      </main>
     </div>
   );
 }
