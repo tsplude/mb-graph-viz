@@ -1,6 +1,6 @@
 // Node container dimensions
-export const NODE_WIDTH = 180;
-export const NODE_HEIGHT = 50;
+export const NODE_WIDTH = 400;
+export const NODE_HEIGHT = 100;
 
 // Padding dimensions
 export const NODE_PADDING_X = 16;  // 8px on each side
@@ -25,10 +25,10 @@ export const NODE_BACKGROUND = '#ffffff';
 export const NODE_BORDER_COLOR = '#3E3F5B';
 export const NODE_BORDER_WIDTH = '2px';
 export const NODE_BORDER_RADIUS = '8px';
-export const NODE_BOX_SHADOW = '0 2px 4px rgba(0, 0, 0, 0.1)';
+export const NODE_BOX_SHADOW = '0 2px 8px rgba(0, 0, 0, 0.3)';
 export const NODE_TEXT_COLOR = '#2d3748';
 export const NODE_TEXT_FONT_FAMILY = 'Menlo, Monaco, Courier New, monospace';
-export const NODE_TEXT_FONT_SIZE = '14px';
+export const NODE_TEXT_FONT_SIZE = '24px';
 
 // Circle positions relative to node center
 // Account for node width (180) and padding (16px on each side)
@@ -38,5 +38,5 @@ export const RIGHT_CIRCLE_X = NODE_WIDTH / 2 + NODE_PADDING_RIGHT + 2;   // Half
 // Node container position relative to circles
 // Position the node container so it's centered between the circles
 // Left edge at -92, right edge at 72 (-92 + 164), creating equal spacing
-export const NODE_X_OFFSET = -92;
-export const NODE_Y_OFFSET = -25; // Center vertically 
+export const NODE_X_OFFSET = -(NODE_WIDTH / 2);
+export const NODE_Y_OFFSET = -(NODE_HEIGHT / 2); // Center vertically 

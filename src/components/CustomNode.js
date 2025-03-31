@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   NODE_WIDTH,
   NODE_HEIGHT,
@@ -27,10 +27,11 @@ import {
   NODE_BOX_SHADOW,
   NODE_TEXT_COLOR,
   NODE_TEXT_FONT_FAMILY,
-  NODE_TEXT_FONT_SIZE
+  NODE_TEXT_FONT_SIZE,
 } from '../constants/nodeDimensions';
 import NodeIcon from './NodeIcon';
 import RightCircleIcon from './RightCircleIcon';
+import InfoIcon from './InfoIcon';
 
 const CustomNode = ({ 
   nodeDatum, 
@@ -48,10 +49,24 @@ const CustomNode = ({
   leftCircleX = LEFT_CIRCLE_X,
   rightCircleX = RIGHT_CIRCLE_X,
   nodeXOffset = NODE_X_OFFSET,
-  nodeYOffset = NODE_Y_OFFSET
+  nodeYOffset = NODE_Y_OFFSET,
 }) => {
   const hasChildren = nodeDatum.children?.length > 0;
+  const [isHovered, setIsHovered] = useState(false);
   
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleIconClick = (event) => {
+    event.stopPropagation(); // Prevent the click from triggering the node toggle
+    console.log('Info icon clicked for node:', nodeDatum);
+  };
+
   return (
     <g>
       {/* Left circle for incoming paths */}
@@ -76,6 +91,8 @@ const CustomNode = ({
         <div
           className="node-container"
           onClick={toggleNode}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -102,11 +119,17 @@ const CustomNode = ({
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              marginLeft: '32px' // Make space for the icon
+              marginLeft: '32px', // Make space for the icon
+              flex: 1 // Allow content to take remaining space
             }}
           >
             {nodeDatum.name}
           </div>
+          {isHovered && (
+            <div style={{ position: 'absolute', right: '8px' }}>
+              <InfoIcon onClick={handleIconClick} />
+            </div>
+          )}
         </div>
       </foreignObject>
 
