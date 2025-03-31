@@ -55,7 +55,7 @@ const TreeVisualization = ({ data, isFiltered, onDetailsViewClick }) => {
         nodeSize={{ x: 1000, y: 100 }}
         zoomable={true}
         draggable={true}
-        initialDepth={isFiltered ? undefined : 2}
+        initialDepth={isFiltered ? undefined : 1}
         transitionDuration={10}
         collapsible={true}
         pathClassFunc={getLinkClass}
