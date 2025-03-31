@@ -1,0 +1,39 @@
+.trace-info {
+  padding: 0.5rem;
+}
+
+.trace-info-section {
+  margin-bottom: 0.75rem;
+}
+
+.trace-info-header {
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.15rem;
+  text-align: left;
+}
+
+.trace-info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.trace-key {
+  font-weight: 600;
+  margin-right: 0.5rem;
+  color: #fff;
+}
+
+.trace-name {
+  color: #ccc;
+  margin-right: 0.5rem;
+}
+
+.trace-calls {
+  white-space: nowrap;
+  color: #999;
+  font-size: 0.85rem;
+} 

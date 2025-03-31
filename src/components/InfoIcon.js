@@ -1,13 +1,13 @@
 import React from 'react';
 
-const InfoIcon = ({ onClick }) => {
+const InfoIcon = ({ onClick, isSelected }) => {
   const iconStyle = {
     width: '44px',
     height: '24px',
     padding: '4px',
     border: '1px solid #e2e8f0',
     borderRadius: '6px',
-    backgroundColor: '#3E3F5B',
+    backgroundColor: isSelected ? '#4A5568' : '#3E3F5B',
     color: 'white',
     display: 'flex',
     alignItems: 'center',
@@ -15,7 +15,8 @@ const InfoIcon = ({ onClick }) => {
     position: 'absolute',
     top: '28px',
     left: '-32px',
-    transition: 'all 0.2s ease'
+    transition: 'all 0.2s ease',
+    cursor: 'pointer'
   };
 
   return (

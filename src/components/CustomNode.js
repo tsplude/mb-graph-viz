@@ -55,6 +55,7 @@ const CustomNode = ({
   nodeXOffset = NODE_X_OFFSET,
   nodeYOffset = NODE_Y_OFFSET,
   getExtents,
+  onDetailsViewClick,
 }) => {
   const hasChildren = nodeDatum.children?.length > 0;
   const [isHovered, setIsHovered] = useState(false);
@@ -70,7 +71,9 @@ const CustomNode = ({
 
   const handleIconClick = (e) => {
     e.stopPropagation();
-    setShowInfo(true);
+    if (onDetailsViewClick) {
+      onDetailsViewClick(nodeDatum);
+    }
   };
 
   const handleCloseInfo = (e) => {

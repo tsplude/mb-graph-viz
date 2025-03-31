@@ -46,6 +46,9 @@ export const parseFilePaths = (paths) => {
     children: [],
     __rd3t: {
       collapsed: false,
+    },
+    traceData: {
+      file_prefix: paths[0].split('/')[0]
     }
   };
 
@@ -57,10 +60,14 @@ export const parseFilePaths = (paths) => {
     
     const parts = relativePath.split('/');
     let current = root;
+    let currentPath = '';
     
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
       if (!part) continue; // Skip empty parts
+      
+      // Update the current path
+      currentPath = currentPath ? `${currentPath}/${part}` : part;
       
       // Find or create the child node
       let child = current.children.find(c => c.name === part);
@@ -70,6 +77,9 @@ export const parseFilePaths = (paths) => {
           children: [],
           __rd3t: {
             collapsed: true,
+          },
+          traceData: {
+            file_prefix: currentPath
           }
         };
         current.children.push(child);

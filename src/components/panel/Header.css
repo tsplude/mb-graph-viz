@@ -1,0 +1,50 @@
+.panel-header {
+  padding: 1rem;
+  border-bottom: 1px solid #444;
+}
+
+.panel-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: left;
+  color: #fff;
+}
+
+.panel-header h2 {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  text-align: left;
+  color: #ccc;
+}
+
+.panel-header a {
+  color: #64b5f6;
+  text-decoration: none;
+}
+
+.panel-header a:hover {
+  color: #90caf9;
+  text-decoration: underline;
+}
+
+.link-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.link-container h2 {
+  margin: 0.6rem 0;
+}
+
+.link-container svg {
+  margin-bottom: 0.5rem;
+  color: #64b5f6;
+}
+
+.link-icon {
+  width: .6em;
+  height: .6em;
+  color: #64b5f6;
+  margin-top: 0.5rem;
+} 

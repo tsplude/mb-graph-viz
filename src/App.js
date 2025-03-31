@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import TreeVisualization from './components/TreeVisualization';
+import DetailsPanel from './components/DetailsPanel';
 import { parseFileContent } from './utils/fileParser';
 import { parseTraceFile } from './utils/traceParser';
 import { filterByMatch, filterByTrace } from './utils/graph';
@@ -12,6 +13,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [displaySearchTerm, setDisplaySearchTerm] = useState('');
   const [traceData, setTraceData] = useState(null);
+  const [selectedNode, setSelectedNode] = useState(null);
 
   // Load default file on startup
   useEffect(() => {
@@ -69,6 +71,10 @@ function App() {
     }
   };
 
+  const handleDetailsViewClick = (datum) => {
+    setSelectedNode(prevNode => prevNode === datum ? null : datum);
+  };
+
   return (
     <div className="App">
       <Header 
@@ -82,9 +88,11 @@ function App() {
         {filteredTreeData && (
           <TreeVisualization 
             data={filteredTreeData} 
-            isFiltered={searchTerm !== '' || traceData !== null} 
+            isFiltered={searchTerm !== '' || traceData !== null}
+            onDetailsViewClick={handleDetailsViewClick}
           />
         )}
+        <DetailsPanel selectedNode={selectedNode} />
       </main>
     </div>
   );

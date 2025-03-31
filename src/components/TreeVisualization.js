@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import CustomNode from './CustomNode';
 import { NODE_WIDTH, NODE_HEIGHT, LEFT_CIRCLE_X, RIGHT_CIRCLE_X } from '../constants/nodeDimensions';
 
-const TreeVisualization = ({ data, isFiltered }) => {
+const TreeVisualization = ({ data, isFiltered, onDetailsViewClick }) => {
   const treeRef = useRef(null);
 
   // Expose the tree instance to window for debugging
@@ -46,6 +46,7 @@ const TreeVisualization = ({ data, isFiltered }) => {
             rightCircleX={RIGHT_CIRCLE_X}
             onNodeMouseOver={handleNodeHover}
             getExtents={getExtents}
+            onDetailsViewClick={onDetailsViewClick}
           />
         )}
         onNodeMouseOver={handleNodeHover}
