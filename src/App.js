@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const loadDefaultFile = async () => {
       try {
-        const response = await fetch('/mb-be-files.txt');
+        const response = await fetch('/data/mb-backend-source-files.txt');
         const content = await response.text();
         const data = parseFileContent(content);
         setOriginalTreeData(data);

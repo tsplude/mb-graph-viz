@@ -203,8 +203,8 @@ main {
 .rd3t-link,
 .custom-tree-link {
   stroke: #3E3F5B !important;
-  stroke-width: 1 !important;
-  opacity: 0.3 !important;
+  stroke-width: 2 !important;
+  opacity: 0.4 !important;
 }
 
 .rd3t-link:hover,
