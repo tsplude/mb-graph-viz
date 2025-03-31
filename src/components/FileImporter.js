@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { parseFileContent } from '../utils/fileParser';
 
-const FileImporter = ({ onDataLoaded }) => {
+const FileImporter = ({ onDataLoaded, label = 'Upload File', parser = parseFileContent }) => {
   const [error, setError] = useState(null);
 
   const handleFileChange = (event) => {
@@ -14,8 +14,8 @@ const FileImporter = ({ onDataLoaded }) => {
     reader.onload = (e) => {
       try {
         const content = e.target.result;
-        const treeData = parseFileContent(content);
-        onDataLoaded(treeData);
+        const data = parser(content);
+        onDataLoaded(data);
       } catch (err) {
         setError('Error parsing file: ' + err.message);
       }
@@ -30,6 +30,7 @@ const FileImporter = ({ onDataLoaded }) => {
 
   return (
     <div className="file-upload">
+      <div className="file-label">{label}</div>
       <div className="input-group">
         <input
           type="file"

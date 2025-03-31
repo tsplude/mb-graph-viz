@@ -6,8 +6,6 @@ import { NODE_WIDTH, NODE_HEIGHT, LEFT_CIRCLE_X, RIGHT_CIRCLE_X } from '../const
 
 const TreeVisualization = ({ data, isFiltered }) => {
   const treeRef = useRef(null);
-  console.log('TreeVisualization isFiltered', isFiltered);
-  console.log('TreeVisualization data', data);
 
   // Expose the tree instance to window for debugging
   useEffect(() => {
@@ -26,6 +24,13 @@ const TreeVisualization = ({ data, isFiltered }) => {
     return 'custom-tree-link';
   };
 
+  const getExtents = () => {
+    if (!data?.traceData) return null;
+    return {
+      function_calls: [data.traceData?.min_n_calls, data.traceData?.max_n_calls]
+    };
+  };
+
   return (
     <div className="tree-visualization">
       <Tree
@@ -40,6 +45,7 @@ const TreeVisualization = ({ data, isFiltered }) => {
             leftCircleX={LEFT_CIRCLE_X}
             rightCircleX={RIGHT_CIRCLE_X}
             onNodeMouseOver={handleNodeHover}
+            getExtents={getExtents}
           />
         )}
         onNodeMouseOver={handleNodeHover}

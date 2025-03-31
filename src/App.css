@@ -13,9 +13,25 @@
   flex-shrink: 0;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
 .App-header h1 {
-  margin: 0 0 20px 0;
+  margin: 0;
+  padding: 0 20px;
   font-size: 2em;
+  text-align: left;
+}
+
+.controls {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 main {
@@ -192,4 +208,17 @@ main {
 .custom-tree-link:hover {
   stroke: #4299e1 !important;
   opacity: 0.5 !important;
+}
+
+.file-label {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

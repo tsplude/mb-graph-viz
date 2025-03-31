@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import FileImporter from './components/FileImporter';
+import Header from './components/Header';
 import TreeVisualization from './components/TreeVisualization';
 import { parseFileContent } from './utils/fileParser';
-import { filterByMatch } from './utils/graph';
+import { parseTraceFile } from './utils/traceParser';
+import { filterByMatch, filterByTrace } from './utils/graph';
 import './App.css';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   const [filteredTreeData, setFilteredTreeData] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [displaySearchTerm, setDisplaySearchTerm] = useState('');
+  const [traceData, setTraceData] = useState(null);
 
   // Load default file on startup
   useEffect(() => {
@@ -28,9 +30,33 @@ function App() {
     loadDefaultFile();
   }, []);
 
+  // Update filtered tree when search term or trace data changes
+  useEffect(() => {
+    if (!originalTreeData) return;
+
+    let filtered = { ...originalTreeData };
+
+    // Apply trace filtering if trace data exists
+    if (traceData) {
+      filtered = filterByTrace(filtered, traceData);
+      console.log('Filtered trace tree:', filtered);
+    }
+
+    // Apply search filtering if search term exists
+    if (searchTerm) {
+      filtered = filterByMatch(filtered, searchTerm);
+    }
+
+    setFilteredTreeData(filtered);
+  }, [originalTreeData, searchTerm, traceData]);
+
   const handleDataLoaded = (data) => {
     setOriginalTreeData(data);
     setFilteredTreeData(data);
+  };
+
+  const handleTraceLoaded = (data) => {
+    setTraceData(data);
   };
 
   const handleSearchChange = (event) => {
@@ -40,34 +66,23 @@ function App() {
   const handleSearchKeyDown = (event) => {
     if (event.key === 'Enter') {
       setSearchTerm(displaySearchTerm);
-      if (originalTreeData) {
-        const filtered = filterByMatch(originalTreeData, displaySearchTerm);
-        setFilteredTreeData(filtered);
-      }
     }
   };
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>File Tree Visualization</h1>
-        <div className="controls">
-          <FileImporter onDataLoaded={handleDataLoaded} />
-          <input
-            type="text"
-            placeholder="Search nodes... (press Enter to search)"
-            value={displaySearchTerm}
-            onChange={handleSearchChange}
-            onKeyDown={handleSearchKeyDown}
-            className="search-input"
-          />
-        </div>
-      </header>
+      <Header 
+        displaySearchTerm={displaySearchTerm}
+        onSearchChange={handleSearchChange}
+        onSearchKeyDown={handleSearchKeyDown}
+        onDataLoaded={handleDataLoaded}
+        onTraceLoaded={handleTraceLoaded}
+      />
       <main>
         {filteredTreeData && (
           <TreeVisualization 
             data={filteredTreeData} 
-            isFiltered={searchTerm !== ''} 
+            isFiltered={searchTerm !== '' || traceData !== null} 
           />
         )}
       </main>

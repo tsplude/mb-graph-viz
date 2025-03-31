@@ -28,10 +28,14 @@ import {
   NODE_TEXT_COLOR,
   NODE_TEXT_FONT_FAMILY,
   NODE_TEXT_FONT_SIZE,
+  NODE_COLOR_MIN,
+  NODE_COLOR_MAX,
 } from '../constants/nodeDimensions';
 import NodeIcon from './NodeIcon';
 import RightCircleIcon from './RightCircleIcon';
 import InfoIcon from './InfoIcon';
+import NodeInfo from './NodeInfo';
+import { interpolateColor } from '../utils/color';
 
 const CustomNode = ({ 
   nodeDatum, 
@@ -50,9 +54,11 @@ const CustomNode = ({
   rightCircleX = RIGHT_CIRCLE_X,
   nodeXOffset = NODE_X_OFFSET,
   nodeYOffset = NODE_Y_OFFSET,
+  getExtents,
 }) => {
   const hasChildren = nodeDatum.children?.length > 0;
   const [isHovered, setIsHovered] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -62,10 +68,28 @@ const CustomNode = ({
     setIsHovered(false);
   };
 
-  const handleIconClick = (event) => {
-    event.stopPropagation(); // Prevent the click from triggering the node toggle
-    console.log('Info icon clicked for node:', nodeDatum);
+  const handleIconClick = (e) => {
+    e.stopPropagation();
+    setShowInfo(true);
   };
+
+  const handleCloseInfo = (e) => {
+    e.stopPropagation();
+    setShowInfo(false);
+  };
+
+  // Calculate color factor based on total_n_calls
+  const getColorFactor = () => {
+    if (!nodeDatum.traceData?.total_n_calls || !getExtents) return 0;
+    
+    const [min, max] = getExtents().function_calls;
+    if (min === max) return 0;
+    
+    return (nodeDatum.traceData.total_n_calls - min) / (max - min);
+  };
+
+  const colorFactor = getColorFactor();
+  const nodeColor = colorFactor > 0 ? interpolateColor(NODE_COLOR_MIN, NODE_COLOR_MAX, colorFactor) : NODE_BACKGROUND;
 
   return (
     <g>
@@ -97,7 +121,7 @@ const CustomNode = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: NODE_BACKGROUND,
+            background: nodeColor,
             border: `${NODE_BORDER_WIDTH} solid ${NODE_BORDER_COLOR}`,
             borderRadius: NODE_BORDER_RADIUS,
             padding: `${NODE_PADDING_TOP}px ${NODE_PADDING_RIGHT}px ${NODE_PADDING_BOTTOM}px ${NODE_PADDING_LEFT}px`,
@@ -135,6 +159,15 @@ const CustomNode = ({
 
       {/* Right circle arrow icon - only show if node has children */}
       {hasChildren && <RightCircleIcon x={rightCircleX} y={0} />}
+
+      {showInfo && (
+        <NodeInfo
+          nodeDatum={nodeDatum}
+          onClose={handleCloseInfo}
+          x={30}
+          y={-100}
+        />
+      )}
     </g>
   );
 };

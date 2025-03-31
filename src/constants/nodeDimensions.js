@@ -30,6 +30,9 @@ export const NODE_TEXT_COLOR = '#2d3748';
 export const NODE_TEXT_FONT_FAMILY = 'Menlo, Monaco, Courier New, monospace';
 export const NODE_TEXT_FONT_SIZE = '24px';
 
+export const NODE_COLOR_MIN = '#DDEB9D';
+export const NODE_COLOR_MAX = '#EB5B00';
+
 // Circle positions relative to node center
 // Account for node width (180) and padding (16px on each side)
 export const LEFT_CIRCLE_X = -(NODE_WIDTH / 2 + NODE_PADDING_LEFT + 2);  // Half of node width + left padding + small gap
